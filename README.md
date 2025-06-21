@@ -36,6 +36,12 @@ Este es un sistema básico para gestionar productos, entradas de stock y ventas.
 
 ![vista](https://github.com/eliancba/SistemadeGestionB/blob/main/vista%20previa.png) 
 #
+
+**Descargar Programa**
+
+[Archivo .zip](https://drive.google.com/file/d/1gE9X5L9m5-tKow2L4iR7kcARGXoyZh5t/view?usp=drive_link)
+
+
 **Tecnologías utilizadas**
 
 - Python 3: Lenguaje de programación principal para el desarrollo del sistema.
