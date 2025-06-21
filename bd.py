@@ -27,7 +27,7 @@ CREATE TABLE IF NOT EXISTS entradas (
     producto_id INTEGER NOT NULL,
     cantidad INTEGER NOT NULL,
     fecha_entrada TEXT DEFAULT CURRENT_TIMESTAMP,
-    FOREIGN KEY (producto_id) REFERENCES productos(id)
+    FOREIGN KEY (codigo) REFERENCES productos(codigo)
 )            
 ''')
 
@@ -40,7 +40,7 @@ CREATE TABLE IF NOT EXISTS ventas (
     cantidad INTEGER NOT NULL,
     total REAL,
     fecha_venta TEXT DEFAULT CURRENT_TIMESTAMP,
-    FOREING KEY (producto_id) REFERENCES productos(id)
+    FOREIGN KEY (codigo) REFERENCES productos(codigo)
 )               
 ''')
 
