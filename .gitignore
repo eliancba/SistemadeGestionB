@@ -1,12 +1,30 @@
-# Ignorar la base de datos
-productos.db
-
-# Ignorar archivos compilados de Python
-__pycache__/
-*.pyc
 
 # Ignorar ejecutables
 *.exe
 
-# Ignorar icono
-bonita icono.ico
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+*.sqlite3
+productos.db
+
+# Entornos virtuales
+venv/
+env/
+
+# PyInstaller
+dist/
+build/
+*.spec
+
+# Archivos del sistema
+.DS_Store
+Thumbs.db
+
+# Archivos temporales
+*.log
+*.tmp
+
+vista previa.png

@@ -24,7 +24,7 @@ CREATE TABLE IF NOT EXISTS productos (
 cursor.execute('''
 CREATE TABLE IF NOT EXISTS entradas (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
-    producto_id INTEGER NOT NULL,
+    codigo TEXT NOT NULL,
     cantidad INTEGER NOT NULL,
     fecha_entrada TEXT DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (codigo) REFERENCES productos(codigo)
@@ -36,7 +36,7 @@ CREATE TABLE IF NOT EXISTS entradas (
 cursor.execute('''
 CREATE TABLE IF NOT EXISTS ventas (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
-    producto_id INTEGER NOT NULL,
+    codigo TEXT NOT NULL,
     cantidad INTEGER NOT NULL,
     total REAL,
     fecha_venta TEXT DEFAULT CURRENT_TIMESTAMP,

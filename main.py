@@ -1,3 +1,4 @@
+import os
 import tkinter as tk
 from tkinter import ttk, messagebox
 import sqlite3
@@ -13,16 +14,16 @@ def guardar():
         articulo = e_articulo.get()
         entrada = int(e_entrada.get())
         precio_compra = float(e_compra.get())
-        precio_venta = float(e_venta.get())
+        precio_venta = precio_compra * 2 
         salida = 0 
         stock = entrada
         fecha = datetime.now().strftime("%Y-%m-%d")
     except ValueError:
-        messagebox.showerror("Error", "Compruebe que todos los campos estan completos.")
+        messagebox.showerror("Error", "Compruebe que todos los campos están completos.")
         return
     
     if not codigo or not articulo:
-        messagebox.showerror("Error", "Codigo y articulo son obligatorios.")
+        messagebox.showerror("Error", "Código y artículo son obligatorios.")
         return
     
     conn = conectar()
@@ -37,24 +38,30 @@ def guardar():
         limpiar_campos()
         cargar_productos()
     except sqlite3.IntegrityError:
-        messagebox.showerror("Error", "El codigo ya existe en la base.")
+        messagebox.showerror("Error", "El código ya existe en la base.")
     conn.close()
 
 def actualizar_precios(*args):
     try:
         compra = float(e_compra.get())
         venta = compra * 2
+        e_venta.config(state="normal")
         e_venta.delete(0, tk.END)
         e_venta.insert(0, f"{venta:.2f}")
+        e_venta.config(state="readonly")
     except ValueError:
+        e_venta.config(state="normal")
         e_venta.delete(0, tk.END)
+        e_venta.config(state="readonly")
 
 def limpiar_campos():
     e_codigo.delete(0, tk.END)
     e_articulo.delete(0, tk.END)
     e_entrada.delete(0, tk.END)
     e_compra.delete(0, tk.END)
+    e_venta.config(state="normal")
     e_venta.delete(0, tk.END)
+    e_venta.config(state="readonly")
 
 def cargar_productos():
     for fila in tabla.get_children():
@@ -89,7 +96,6 @@ def registrar_entrada():
         nuevo_stock = stock_actual + cantidad
 
         cursor.execute("UPDATE productos SET stock = stock + ?, entrada = entrada + ? WHERE codigo = ?", (cantidad, cantidad, codigo))
-
         cursor.execute("INSERT INTO entradas (codigo, cantidad, fecha) VALUES (?, ?, ?)", (codigo, cantidad, fecha))
 
         conn.commit()
@@ -129,7 +135,6 @@ def registrar_venta():
         total = cantidad * precio_venta
 
         cursor.execute("UPDATE productos SET stock = ?, salida = salida + ? WHERE codigo = ?", (nuevo_stock, cantidad, codigo))
-
         cursor.execute("INSERT INTO ventas (codigo, cantidad, total, fecha_venta) VALUES (?, ?, ?, ?)", (codigo, cantidad, total, fecha))
 
         conn.commit()
@@ -137,7 +142,6 @@ def registrar_venta():
 
         e_codigo_venta.delete(0, tk.END)
         e_cantidad_venta.delete(0, tk.END)
-
         cargar_productos()
     else:
         messagebox.showerror("Error", "El código no existe.")
@@ -151,16 +155,22 @@ root.title("Sistema de Gestión de Productos")
 root.geometry("850x600")
 root.minsize(600,400)
 root.maxsize(850,600)
-root.iconbitmap("bonita icono.ico")
+root.configure(bg="#ffc0cb")
 
 # PESTAÑAS
 notebook = ttk.Notebook(root)
 notebook.pack(fill="both", expand=True)
+notebook.configure(bg="#ffc0cb")
 
 tab_agregar = ttk.Frame(notebook)
 tab_entrada = ttk.Frame(notebook)
 tab_venta = ttk.Frame(notebook)
 tab_stock = ttk.Frame(notebook)
+
+tab_agregar.configure(bg="#ffc0cb")
+tab_entrada.configure(bg="#ffc0cb")
+tab_venta.configure(bg="#ffc0cb")
+tab_stock.configure(bg="#ffc0cb")
 
 notebook.add(tab_agregar, text="➕ Agregar producto")
 notebook.add(tab_entrada, text="🔄 Entrada de stock")
@@ -190,11 +200,10 @@ e_compra.grid(row=3, column=1, padx=5, pady=5)
 e_compra.bind("<KeyRelease>", actualizar_precios)
 
 tk.Label(frm, text="Precio venta:").grid(row=4, column=0, sticky="e")
-e_venta = tk.Entry(frm)
+e_venta = tk.Entry(frm, state="readonly")
 e_venta.grid(row=4, column=1, padx=5, pady=5)
 
 tk.Button(frm, text="Guardar producto", command=guardar).grid(row=5, columnspan=2, pady=15)
-
 
 # PESTAÑA ENTRADA
 
@@ -211,8 +220,8 @@ e_cantidad_entrada.grid(row=1, column=1, padx=5, pady=5)
 
 tk.Button(frm_entrada, text="Registrar entrada", command=registrar_entrada).grid(row=2, columnspan=2, pady=15)
 
-# PESTAÑAS VENTAS 
-frm_venta =tk.Frame(tab_venta)
+# PESTAÑA VENTAS 
+frm_venta = tk.Frame(tab_venta)
 frm_venta.pack(pady=20)
 
 tk.Label(frm_venta, text="Código del producto:").grid(row=0, column=0, sticky="e")
@@ -224,7 +233,6 @@ e_cantidad_venta = tk.Entry(frm_venta)
 e_cantidad_venta.grid(row=1, column=1, padx=5, pady=5)
 
 tk.Button(frm_venta, text="Registrar venta", command=registrar_venta).grid(row=2, columnspan=2, pady=15)
-
 
 # TABLA VER PRODUCTOS
 
