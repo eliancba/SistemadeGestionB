@@ -1,0 +1,9 @@
+# Ignorar la base de datos
+productos.db
+
+# Ignorar archivos compilados de Python
+__pycache__/
+*.pyc
+
+# Ignorar ejecutables
+*.exe
