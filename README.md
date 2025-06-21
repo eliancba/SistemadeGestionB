@@ -33,7 +33,8 @@ Este es un sistema básico para gestionar productos, entradas de stock y ventas.
 - En la pestaña "Ver productos" se visualizan todos los productos y su estado.
 #
 **Vista Previa**
-![vista](vista previa.png) 
+
+![vista](https://github.com/eliancba/SistemadeGestionB/blob/main/vista%20previa.png) 
 #
 **Tecnologías utilizadas**
 
